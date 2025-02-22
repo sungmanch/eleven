@@ -34,3 +34,26 @@ class Profile(models.Model):
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
+
+
+class Eleven(models.Model):
+    GENDER_CHOICES = [
+        ("male", "Male"),
+        ("female", "Female"),
+        ("other", "Other"),
+        ("prefer_not_to_say", "Prefer not to say"),
+    ]
+
+    MOOD_CHOICES = [
+        ("calm", "Calm"),
+        ("chill", "Chill"),
+        ("classy", "Classy"),
+        ("professional", "Professional"),
+    ]
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES)
+    mood = models.CharField(max_length=20, choices=MOOD_CHOICES)
+
+    def __str__(self):
+        return f"{self.user.username}'s eleven profile"

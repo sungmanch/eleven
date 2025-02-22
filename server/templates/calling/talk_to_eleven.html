@@ -1,84 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Real-time Voice Chat</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-  <div class="bg-white p-6 rounded shadow-md max-w-md w-full">
-    <h1 class="text-2xl font-bold mb-4 text-center">Real-time Voice Chat</h1>
-    <button id="startBtn" class="bg-blue-500 text-white py-2 px-4 rounded">Start Talking</button>
-    <button id="stopBtn" class="bg-red-500 text-white py-2 px-4 rounded hidden">Stop</button>
-    <p id="transcript" class="mt-4"></p>
-    <audio id="audioPlayer" controls class="w-full mt-4"></audio>
-  </div>
+{% extends "base.html" %}
 
-  <script>
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-full max-w-2xl">
+        <h2 class="text-2xl font-bold text-white mb-6">Talk to Eleven</h2>
+        <div id="status" class="text-white mb-4 text-center"></div>
+        
+        <div class="flex justify-center gap-4">
+            <button id="startBtn" class="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                Start Chatting
+            </button>
+            <button id="stopBtn" class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 hidden">
+                Stop Chatting
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let mediaRecorder;
+    let ws;
+    let audioContext;
+    let audioQueue = [];
+    let isPlaying = false;
+
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
-    const transcriptEl = document.getElementById('transcript');
-    const audioPlayer = document.getElementById('audioPlayer');
+    const statusEl = document.getElementById('status');
 
-    let recognition;
-    let websocket;
+    function setupWebSocket() {
+        ws = new WebSocket(`ws://${window.location.host}/ws/voice-chat/`);
+        ws.binaryType = 'arraybuffer';
 
-    // Check for Web Speech API support
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.continuous = true;  // Adjust as needed
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
+        ws.onopen = () => {
+            statusEl.textContent = "Connected to voice chat";
+        };
 
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        transcriptEl.textContent = "You said: " + transcript;
-        // Send transcript to server via WebSocket
-        websocket.send(JSON.stringify({ message: transcript }));
-      };
+        ws.onmessage = async (event) => {
+            if (event.data instanceof ArrayBuffer) {
+                audioQueue.push(event.data);
+                if (!isPlaying) {
+                    playNextInQueue();
+                }
+            }
+        };
 
-      recognition.onerror = function(event) {
-        console.error("Speech recognition error:", event.error);
-      };
-    } else {
-      alert("Speech recognition is not supported in this browser.");
+        ws.onerror = (err) => {
+            console.error("WebSocket error:", err);
+            statusEl.textContent = "Error connecting to voice chat";
+        };
+
+        ws.onclose = () => {
+            statusEl.textContent = "Disconnected from voice chat";
+        };
     }
 
-    startBtn.addEventListener('click', () => {
-      // Open WebSocket connection
-      websocket = new WebSocket('ws://' + window.location.host + '/ws/voice-chat/');
-      websocket.onopen = function() {
-        console.log("WebSocket connected");
-        recognition.start();
-        startBtn.classList.add("hidden");
-        stopBtn.classList.remove("hidden");
-      };
-
-      websocket.onmessage = function(event) {
-        const data = JSON.parse(event.data);
-        if (data.audio_url) {
-          // Play the audio response
-          audioPlayer.src = data.audio_url;
-          audioPlayer.play();
+    async function playNextInQueue() {
+        if (audioQueue.length === 0) {
+            isPlaying = false;
+            return;
         }
-        if (data.error) {
-          console.error("Error from server:", data.error);
+
+        isPlaying = true;
+        const audioData = audioQueue.shift();
+
+        try {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            const audioBuffer = await audioContext.decodeAudioData(audioData);
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination);
+            
+            source.onended = () => {
+                playNextInQueue();
+            };
+
+            source.start(0);
+        } catch (error) {
+            console.error("Error playing audio:", error);
+            playNextInQueue(); // Skip problematic audio and continue
         }
-      };
+    }
 
-      websocket.onerror = function(event) {
-        console.error("WebSocket error:", event);
-      };
-    });
+    function startVoiceChat() {
+        navigator.mediaDevices.getUserMedia({ 
+            audio: {
+                channelCount: 1,
+                sampleRate: 16000,
+                echoCancellation: true,
+                noiseSuppression: true
+            }
+        })
+        .then(stream => {
+            setupWebSocket();
+            
+            mediaRecorder = new MediaRecorder(stream, {
+                mimeType: 'audio/webm;codecs=opus',
+                audioBitsPerSecond: 16000
+            });
 
-    stopBtn.addEventListener('click', () => {
-      recognition.stop();
-      websocket.close();
-      startBtn.classList.remove("hidden");
-      stopBtn.classList.add("hidden");
-    });
-  </script>
-</body>
-</html>
+            mediaRecorder.ondataavailable = async (e) => {
+                if (e.data.size > 0 && ws && ws.readyState === WebSocket.OPEN) {
+                    const buffer = await e.data.arrayBuffer();
+                    ws.send(buffer);
+                }
+            };
+
+            mediaRecorder.start(100); // Collect 100ms chunks
+            startBtn.classList.add("hidden");
+            stopBtn.classList.remove("hidden");
+            statusEl.textContent = "Recording...";
+        })
+        .catch(err => {
+            console.error("Microphone access error:", err);
+            statusEl.textContent = "Could not access the microphone";
+        });
+    }
+
+    function stopVoiceChat() {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+        }
+        if (ws) {
+            ws.close();
+        }
+        if (audioContext) {
+            audioContext.close();
+            audioContext = null;
+        }
+        audioQueue = [];
+        isPlaying = false;
+        startBtn.classList.remove("hidden");
+        stopBtn.classList.add("hidden");
+        statusEl.textContent = "Stopped recording";
+    }
+
+    // Event Listeners
+    startBtn.addEventListener('click', startVoiceChat);
+    stopBtn.addEventListener('click', stopVoiceChat);
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', stopVoiceChat);
+</script>
+{% endblock %}
