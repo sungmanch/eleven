@@ -16,6 +16,7 @@ def test_e2e():
 
     # 3. Call with CallAgent
     call_history = get_dummy_call_history()
+    print(call_history)
 
     # 4. Match with MatchAgent
     match_agent = MatchAgent()
@@ -26,15 +27,16 @@ def test_e2e():
     chat_agent = ChatAgent(user_info=query_user)
     chat_agent.add_call_history(call_history)
 
-    
-    print("Welcome to the Eleven AI! Type 'exit' to quit.")
+    feedback_message = chat_agent.ask_feedback()
+    print(feedback_message)
+
     while True:
         user_input = input("You: ")
         if user_input.lower() == 'exit':
             print("Goodbye!")
             break
         response = chat_agent.chat(user_input)
-        print(f"AI: {response}")
+        print(f"Eleven: {response}")
 
 
 if __name__ == "__main__":

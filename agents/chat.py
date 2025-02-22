@@ -45,7 +45,19 @@ class ChatAgent:
             previous_messages = previous_messages + self.call_history
             self.is_first_message = False
         
-        all_messages = previous_messages + current_messages
+        system_prompt = SystemMessage(
+            content=(
+                "Your main objective is to help the user find a match. "
+                "You will be given a list of users and a call history. "
+                "You will need to find the best match for the user based on the call history. "
+                "You will need to return the name of the user that is the best match. "
+                "During overall process, don't forget to be friendly and cheerful."
+                "You are a friendly AI assistant named Eleven."
+                "Casual and friendly tone is mandatory."
+            )
+        )
+        all_messages = [system_prompt] + previous_messages + current_messages
+        
         response = self.llm.invoke(all_messages)
         
         state["messages"] = all_messages + [response]
@@ -57,7 +69,17 @@ class ChatAgent:
         input_messages = [HumanMessage(content=query)]
         output = self.app.invoke({"messages": input_messages}, self.config)
         return output["messages"][-1].content
-    
+
+    def ask_feedback(self):
+        query = (
+            "could you please make catch up message to the user?"
+            "Based on the previous messages, you need to make a catch up message to the user."
+            "You are a friendly AI assistant named Eleven."
+            "Casual and friendly tone is mandatory."
+        )
+        input_messages = [HumanMessage(content=query)]
+        output = self.app.invoke({"messages": input_messages}, self.config)
+        return output["messages"][-1].content
 
 if __name__ == "__main__":
     user_info = UserInfo(name="Bob", age=25, gender="male", location="New York", id="123")
