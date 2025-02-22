@@ -170,3 +170,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 SOCIALACCOUNT_ADAPTER = "accounts.adapters.MySocialAccountAdapter"
+
+# Channel Layer Configuration
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels.layers.InMemoryChannelLayer"}}
+ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
