@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-full max-w-2xl">
+        <h2 class="text-2xl font-bold text-white mb-6">Chat with Eleven</h2>
+        
+        <div id="chatContainer" class="bg-white/5 rounded-lg p-4 mb-4 h-96 overflow-y-auto">
+            <div id="messages" class="space-y-4">
+                <!-- Messages will be inserted here -->
+            </div>
+        </div>
+
+        <form id="chatForm" class="flex gap-2">
+            <input 
+                type="text" 
+                id="messageInput" 
+                class="flex-1 bg-white/20 text-white placeholder-white/50 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
+                placeholder="Type your message..."
+                autocomplete="off"
+            >
+            <button 
+                type="submit" 
+                class="bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+            >
+                Send
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const chatForm = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const messagesContainer = document.getElementById('messages');
+    let ws;
+
+    function setupWebSocket() {
+        ws = new WebSocket(`ws://${window.location.host}/ws/chat/`);
+
+        ws.onopen = () => {
+            console.log('Connected to chat');
+        };
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            addMessage(data.message, 'assistant');
+        };
+
+        ws.onerror = (err) => {
+            console.error("WebSocket error:", err);
+        };
+
+        ws.onclose = () => {
+            console.log("Disconnected from chat");
+            // Attempt to reconnect after a delay
+            setTimeout(setupWebSocket, 3000);
+        };
+    }
+
+    function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+        
+        const messageBubble = document.createElement('div');
+        messageBubble.className = `max-w-[80%] rounded-lg px-4 py-2 ${
+            sender === 'user' 
+                ? 'bg-pink-600 text-white' 
+                : 'bg-white/20 text-white'
+        }`;
+        messageBubble.textContent = text;
+        
+        messageDiv.appendChild(messageBubble);
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        
+        if (message && ws && ws.readyState === WebSocket.OPEN) {
+            addMessage(message, 'user');
+            ws.send(JSON.stringify({ message: message }));
+            messageInput.value = '';
+        }
+    });
+
+    // Initialize WebSocket connection
+    setupWebSocket();
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+        if (ws) {
+            ws.close();
+        }
+    });
+</script>
+{% endblock %}

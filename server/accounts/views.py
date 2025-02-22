@@ -86,7 +86,7 @@ def eleven_setup(request):
                 eleven.save()
 
             messages.success(request, "Eleven setup successfully!")
-            return redirect("calling:talk")
+            return redirect("http://localhost:5173")
     else:
         form = ElevenForm()
 

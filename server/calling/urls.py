@@ -6,4 +6,5 @@ app_name = "calling"
 
 urlpatterns = [
     path("talk/", views.talk_to_eleven, name="talk"),
+    path("chat/", views.chatting, name="chat"),
 ]
