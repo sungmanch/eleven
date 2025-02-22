@@ -1,12 +1,21 @@
 {% extends "base.html" %}
+{% load socialaccount %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Welcome</h1>
-    {% if user.is_authenticated %}
-        <p>Hello {{ user.get_full_name }}!</p>
-    {% else %}
-        <p>Please log in to continue.</p>
-    {% endif %}
+    <div class="mx-auto flex justify-center items-center min-h-screen">
+        <div class="text-center bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-xl">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Welcome</h1>
+            {% if user.is_authenticated %}
+                <p class="text-gray-700">Hello {{ user.get_full_name }}!</p>
+            {% else %}
+                <p class="text-gray-700 mb-6">Please log in to continue.</p>
+                <a href="{% provider_login_url 'linkedin_oauth2' %}"
+                   class="inline-block bg-[#0a66c2] hover:bg-[#004182] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                    Sign In
+                </a>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

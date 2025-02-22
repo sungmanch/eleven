@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     {% block extra_head %}{% endblock %}
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 </head>
-<body>
-    <header>
-        <nav>
-            {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'social:begin' 'linkedin-oauth2' %}">Login with LinkedIn</a>
-            {% endif %}
+<body class="bg-gradient-to-br from-pink-400 via-pink-500 to-pink-600 min-h-screen">
+    <header class="bg-transparent absolute top-0 left-0 right-0">
+        {% if user.is_authenticated %}
+        <nav class="bg-transparent flex justify-end p-4 border-b border-white/20">
+            <a href="{% url 'account_logout' %}" class="text-white hover:text-gray-300 transition-colors">Logout</a>
         </nav>
+        {% endif %}
     </header>
 
     <main>
         {% if messages %}
-            <div class="messages">
+            <div class="fixed top-4 right-4 z-50 space-y-4">
                 {% for message in messages %}
-                    <div class="message {{ message.tags }}">
-                        {{ message }}
+                    <div class="message {{ message.tags }} animate-slide-in flex items-center p-4 rounded-lg shadow-lg {% if message.tags == 'error' %}bg-red-500{% elif message.tags == 'success' %}bg-green-500{% elif message.tags == 'warning' %}bg-yellow-500{% else %}bg-blue-500{% endif %} text-white">
+                        <div class="flex-1">{{ message }}</div>
+                        <button onclick="this.parentElement.remove()" class="ml-4 text-white hover:text-gray-200">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
                     </div>
                 {% endfor %}
             </div>
@@ -38,5 +43,21 @@
     </footer>
 
     {% block extra_body %}{% endblock %}
+
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+    </style>
 </body>
 </html>

@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # library apps
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.openid_connect",
     # custom apps
     "accounts",
 ]
@@ -54,7 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "social_django.middleware.SocialAuthExceptionMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -129,3 +134,38 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+LOGIN_REDIRECT_URL = "/accounts/profile/setup/"
+LOGOUT_REDIRECT_URL = "/"
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "linkedin_oauth2",
+                "name": "LinkedIn",
+                "client_id": os.getenv("LINKEDIN_CLIENT_ID"),
+                "secret": os.getenv("LINKEDIN_CLIENT_SECRET"),
+                "settings": {
+                    "server_url": "https://www.linkedin.com/oauth",
+                    "scope": [
+                        "openid",
+                        "email",
+                        "profile",
+                    ],
+                },
+            }
+        ]
+    }
+}
+
+SOCIALACCOUNT_ADAPTER = "accounts.adapters.MySocialAccountAdapter"

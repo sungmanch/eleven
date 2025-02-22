@@ -22,6 +22,7 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("auth/", include("social_django.urls", namespace="social")),
+    path("auth/", include("allauth.urls"), name="provider_login_url"),
     path("", views.index, name="index"),
+    path("accounts/", include("accounts.urls")),
 ]
