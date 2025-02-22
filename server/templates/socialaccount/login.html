@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-pink-400 via-pink-500 to-pink-600">
+    <div class="flex justify-center items-center p-5 min-h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+        <h2 class="text-2xl text-gray-800 font-semibold mb-6">Connect with LinkedIn</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="my-5">
+                <button type="submit" class="w-full py-3 px-5 bg-[#0a66c2] hover:bg-[#004182] text-white font-semibold rounded-full transition-colors duration-200 flex items-center justify-center hover:cursor-pointer">
+                    Continue with LinkedIn
+                </button>
+            </div>
+            
+            <div class="mt-5 text-sm text-gray-600">
+                By continuing, you agree to our 
+                <a href="/terms" class="text-[#0a66c2] hover:underline hover:cursor-pointer">Terms of Service</a> and 
+                <a href="/privacy" class="text-[#0a66c2] hover:underline hover:cursor-pointer">Privacy Policy</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
