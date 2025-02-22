@@ -1,0 +1,389 @@
+{
+  "agent_id": "lGv1POwg4TU7ZOjHZkoI",
+  "conversation_id": "21NWNoyv44tlmFoKf1rL",
+  "status": "done",
+  "transcript": [
+    {
+      "role": "agent",
+      "message": "Hey, how have you been? I heard you are looking for a new relationship. ",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 0,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "user",
+      "message": "Hey, I've been doing fine. How about you?",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 6,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "I'm doing great, thanks for asking! So, you're looking for a new relationship, that's exciting! What kind of relationship are you hoping to find? Are you looking for...",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 9,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.2402017971035093
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.39498449699021876
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "I'm... I'm looking for a serious relationship.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 18,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Okay, great. A serious relationship, got it. When you think about your ideal partner, what qualities are most important to you?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 24,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.3009621608071029
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.47738425899297
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "I think we should share similar hobbies.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 35,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "That makes perfect sense! Sharing hobbies can be a great way to connect. Could you tell me about some of your favorite ways to spend your free time?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 40,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.2813342371955514
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.42606245214119554
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "I like watching sports, especially soccer.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 48,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "That's awesome! Do you play soccer yourself, or mostly just watch?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 51,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "user",
+      "message": "Yeah, I do play as well.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 56,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "That's cool. What else do you enjoy doing?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 58,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "user",
+      "message": "I like visiting fine restaurants.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 63,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Okay, so you're into sports and fine dining. That gives me a better picture. What about your lifestyle? Are you more of a homebody, or do you enjoy going out and being social?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 67,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.21580546093173325
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.40723395301029086
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "I like staying home. Mostly.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 79,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Got it. A homebody who enjoys sports and fine dining. What about the kind of person you're looking for? Are you interested in a specific gender?",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 83,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.22771641216240823
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.44134158291853964
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "Yes, so i'm looking for a female partner.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 93,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Okay, great. I will keep that in mind. Is there anything else you would like to tell me?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 96,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.30725602293387055
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.4808482611551881
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "No, i think that's about it.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 102,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Okay, based on what you've told me, someone who enjoys similar hobbies, especially sports, and also appreciates a good meal and cozy nights in. I think I have just the person. Have you heard of Mila?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 104,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.28063979907892644
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.6049801879562438
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "No, who is she?",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 117,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Mila is thirty-nine and enjoys rock climbing. She works in software engineering, and likes Japanese food. She also has a creative personality. Does that sound like someone you might be interested in?\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 119,
+      "conversation_turn_metrics": {
+        "convai_llm_service_ttfb": {
+          "elapsed_time": 0.25052478606812656
+        },
+        "convai_llm_service_ttf_sentence": {
+          "elapsed_time": 0.4576632829848677
+        }
+      }
+    },
+    {
+      "role": "user",
+      "message": "Yeah definitely.",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 130,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": "Great! I'm happy I could help. Have a wonderful day!\n",
+      "tool_calls": null,
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 133,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": null,
+      "tool_calls": [
+        {
+          "request_id": "end_call_676a146400124e18a8998a1fb7a7f4db",
+          "tool_name": "end_call",
+          "params_as_json": "{\"message\": \"I'm happy I could help. Have a wonderful day!\", \"reason\": \"finished matchmaking\"}",
+          "tool_has_been_called": true
+        }
+      ],
+      "tool_results": null,
+      "feedback": null,
+      "time_in_call_secs": 133,
+      "conversation_turn_metrics": null
+    },
+    {
+      "role": "agent",
+      "message": null,
+      "tool_calls": null,
+      "tool_results": [
+        {
+          "request_id": "end_call_676a146400124e18a8998a1fb7a7f4db",
+          "tool_name": "end_call",
+          "result_value": "{\"status\": \"success\", \"reason\": \"finished matchmaking\", \"message\": \"I'm happy I could help. Have a wonderful day!\"}",
+          "is_error": false,
+          "tool_has_been_called": true
+        }
+      ],
+      "feedback": null,
+      "time_in_call_secs": 133,
+      "conversation_turn_metrics": null
+    }
+  ],
+  "metadata": {
+    "start_time_unix_secs": 1740204452,
+    "call_duration_secs": 137,
+    "cost": 457,
+    "deletion_settings": {
+      "deletion_time_unix_secs": 1803276589,
+      "deleted_logs_at_time_unix_secs": null,
+      "deleted_audio_at_time_unix_secs": null,
+      "deleted_transcript_at_time_unix_secs": null,
+      "delete_transcript_and_pii": true,
+      "delete_audio": true
+    },
+    "feedback": {
+      "overall_score": null,
+      "likes": 0,
+      "dislikes": 0
+    },
+    "authorization_method": "authorization_header",
+    "charging": {
+      "dev_discount": true
+    },
+    "termination_reason": "end_call tool was called."
+  },
+  "analysis": {
+    "evaluation_criteria_results": {
+      "success": {
+        "criteria_id": "success",
+        "result": "success",
+        "rationale": "The agent successfully made a match based on the conversation and introduced a potential match (Mila) to the caller before ending the call. The agent gathered information about the user's preferences, including their interest in sports, fine dining, and desire for a serious relationship with a female partner. Based on this information, the agent suggested Mila as a potential match and provided details about her, which the user expressed interest in."
+      }
+    },
+    "data_collection_results": {
+      "result": {
+        "data_collection_id": "result",
+        "value": "success",
+        "json_schema": {
+          "type": "string",
+          "description": "result will be either success or failure\n\nevaluate whether the caller was given a recommended match out of the userdatabase",
+          "dynamic_variable": ""
+        },
+        "rationale": "The conversation demonstrates a successful matchmaking process. The agent gathered information about the user's preferences, including their interest in sports (particularly soccer), fine dining, and desire for a serious relationship with a female partner. Based on this information, the agent recommended a potential match named Mila. The user responded positively to this suggestion, saying 'Yeah definitely.' when asked if they were interested. The conversation concluded with the agent expressing happiness about being able to help, indicating a successful matchmaking outcome. This is further confirmed by the tool call at the end, which shows the call ending with a 'success' status and the reason 'finished matchmaking'."
+      },
+      "user_intro": {
+        "data_collection_id": "user_intro",
+        "value": null,
+        "json_schema": null,
+        "rationale": "Error occurred whilst attempting to extract data"
+      },
+      "match_info": {
+        "data_collection_id": "match_info",
+        "value": "Mila is thirty-nine and enjoys rock climbing. She works in software engineering, and likes Japanese food. She also has a creative personality.",
+        "json_schema": {
+          "type": "string",
+          "description": "information of the recommended match introduced to the caller",
+          "dynamic_variable": ""
+        },
+        "rationale": "The conversation includes a clear introduction of a potential match named Mila. The agent provides specific information about Mila, including her age, interests, profession, and personality traits. This information is directly extracted from the agent's statement: 'Mila is thirty-nine and enjoys rock climbing. She works in software engineering, and likes Japanese food. She also has a creative personality.' This description matches the schema requirement of 'information of the recommended match introduced to the caller'."
+      },
+      "Q&A": {
+        "data_collection_id": "Q&A",
+        "value": "1. Q: What kind of relationship are you hoping to find? A: I'm looking for a serious relationship.\n2. Q: When you think about your ideal partner, what qualities are most important to you? A: I think we should share similar hobbies.\n3. Q: Could you tell me about some of your favorite ways to spend your free time? A: I like watching sports, especially soccer.\n4. Q: Do you play soccer yourself, or mostly just watch? A: Yeah, I do play as well.\n5. Q: What else do you enjoy doing? A: I like visiting fine restaurants.\n6. Q: Are you more of a homebody, or do you enjoy going out and being social? A: I like staying home. Mostly.\n7. Q: Are you interested in a specific gender? A: Yes, so I'm looking for a female partner.\n8. Q: Is there anything else you would like to tell me? A: No, I think that's about it.\n9. Q: Have you heard of Mila? A: No, who is she?\n10. Q: Does that sound like someone you might be interested in? A: Yeah definitely.",
+        "json_schema": {
+          "type": "string",
+          "description": "list of questions and answers from the conversation",
+          "dynamic_variable": ""
+        },
+        "rationale": "The conversation contains a series of questions and answers between an agent and a user discussing the user's preferences for a relationship. I can extract these questions and answers from the transcript."
+      }
+    },
+    "call_successful": "success",
+    "transcript_summary": "The conversation revolves around a matchmaking interaction between an agent and a user seeking a new relationship. The user expresses interest in finding a serious relationship with a female partner. They describe their preferences, including shared hobbies, particularly sports (especially soccer, which they both watch and play) and fine dining. The user also mentions being mostly a homebody.\n\nThe agent asks probing questions to understand the user's interests and lifestyle better. Based on this information, the agent suggests a potential match named Mila, a 39-year-old software engineer who enjoys rock climbing, Japanese food, and has a creative personality. The user expresses interest in Mila.\n\nThe conversation maintains a friendly and professional tone throughout. It concludes with the agent expressing satisfaction at being able to help and wishing the user a wonderful day. The interaction ends successfully, with the matchmaking process considered complete."
+  },
+  "conversation_initiation_client_data": {
+    "conversation_config_override": {
+      "agent": {
+        "prompt": null,
+        "first_message": null,
+        "language": null
+      },
+      "tts": {
+        "voice_id": null
+      }
+    },
+    "custom_llm_extra_body": {},
+    "dynamic_variables": {}
+  }
+}
