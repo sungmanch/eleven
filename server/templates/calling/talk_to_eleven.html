@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Real-time Voice Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="bg-white p-6 rounded shadow-md max-w-md w-full">
+    <h1 class="text-2xl font-bold mb-4 text-center">Real-time Voice Chat</h1>
+    <button id="startBtn" class="bg-blue-500 text-white py-2 px-4 rounded">Start Talking</button>
+    <button id="stopBtn" class="bg-red-500 text-white py-2 px-4 rounded hidden">Stop</button>
+    <p id="transcript" class="mt-4"></p>
+    <audio id="audioPlayer" controls class="w-full mt-4"></audio>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const transcriptEl = document.getElementById('transcript');
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    let recognition;
+    let websocket;
+
+    // Check for Web Speech API support
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;  // Adjust as needed
+      recognition.interimResults = false;
+      recognition.lang = 'en-US';
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        transcriptEl.textContent = "You said: " + transcript;
+        // Send transcript to server via WebSocket
+        websocket.send(JSON.stringify({ message: transcript }));
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error:", event.error);
+      };
+    } else {
+      alert("Speech recognition is not supported in this browser.");
+    }
+
+    startBtn.addEventListener('click', () => {
+      // Open WebSocket connection
+      websocket = new WebSocket('ws://' + window.location.host + '/ws/voice-chat/');
+      websocket.onopen = function() {
+        console.log("WebSocket connected");
+        recognition.start();
+        startBtn.classList.add("hidden");
+        stopBtn.classList.remove("hidden");
+      };
+
+      websocket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        if (data.audio_url) {
+          // Play the audio response
+          audioPlayer.src = data.audio_url;
+          audioPlayer.play();
+        }
+        if (data.error) {
+          console.error("Error from server:", data.error);
+        }
+      };
+
+      websocket.onerror = function(event) {
+        console.error("WebSocket error:", event);
+      };
+    });
+
+    stopBtn.addEventListener('click', () => {
+      recognition.stop();
+      websocket.close();
+      startBtn.classList.remove("hidden");
+      stopBtn.classList.add("hidden");
+    });
+  </script>
+</body>
+</html>

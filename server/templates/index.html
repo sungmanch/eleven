@@ -6,11 +6,15 @@
 {% block content %}
     <div class="mx-auto flex justify-center items-center min-h-screen">
         <div class="text-center bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-xl">
-            <h1 class="text-2xl font-bold text-gray-800 mb-4">Welcome</h1>
             {% if user.is_authenticated %}
-                <p class="text-gray-700">Hello {{ user.get_full_name }}!</p>
+            <p class="text-gray-700">Hello </p>
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">{{ user.get_full_name }}!</h1>
+            <a href="{% url 'calling:talk' %}" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 mt-4">
+                Talk to Eleven
+            </a>
             {% else %}
-                <p class="text-gray-700 mb-6">Please log in to continue.</p>
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Welcome</h1>
+            <p class="text-gray-700 mb-6">Please log in to continue.</p>
                 <a href="{% provider_login_url 'linkedin_oauth2' %}"
                    class="inline-block bg-[#0a66c2] hover:bg-[#004182] text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
                     Sign In

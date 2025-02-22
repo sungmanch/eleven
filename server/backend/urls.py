@@ -25,4 +25,5 @@ urlpatterns = [
     path("auth/", include("allauth.urls"), name="provider_login_url"),
     path("", views.index, name="index"),
     path("accounts/", include("accounts.urls")),
+    path("calling/", include("calling.urls")),
 ]
