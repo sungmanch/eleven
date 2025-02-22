@@ -1,6 +1,7 @@
 import json
 
 from agents.chat import ChatAgent
+from agents.match import MatchAgent
 from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -20,6 +21,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 first_name="Daniel", age=38, gender="Male", location="New York"
             )
         )
+
+        self.match_agent = MatchAgent()
 
     async def disconnect(self, close_code):
         pass
