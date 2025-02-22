@@ -1,7 +1,7 @@
 import os
 
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import AIMessage, HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, MessagesState, StateGraph
@@ -31,12 +31,21 @@ class ChatAgent:
             }
         }
 
+        self.call_history = ""
+        self.is_first_message = True
+    
+    def add_call_history(self, call_history: str):
+        self.call_history = call_history
+
     def call_model(self, state: MessagesState):
         previous_messages = state.get("messages", [])
         current_messages = state["messages"]
+
+        if self.is_first_message:
+            previous_messages = previous_messages + self.call_history
+            self.is_first_message = False
         
         all_messages = previous_messages + current_messages
-
         response = self.llm.invoke(all_messages)
         
         state["messages"] = all_messages + [response]
@@ -61,4 +70,4 @@ if __name__ == "__main__":
             print("Goodbye!")
             break
         response = chat_agent.chat(user_input)
-        print(f"AI: {response}")
+        print(f"Eleven: {response}")

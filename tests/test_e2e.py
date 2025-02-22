@@ -1,4 +1,5 @@
 from type.user_info import UserInfo
+from langgraph.graph import MessagesState
 from agents.match import MatchAgent
 from agents.chat import ChatAgent
 from utils.utils_func import get_dummy_users_db, get_dummy_call_history
@@ -20,10 +21,11 @@ def test_e2e():
     match_agent = MatchAgent()
     result = match_agent.match(query_user, users_db, call_history)
     print(result)
-    breakpoint()
 
     # 5. Chat with ChatAgent
-    chat_agent = ChatAgent()
+    chat_agent = ChatAgent(user_info=query_user)
+    chat_agent.add_call_history(call_history)
+
     
     print("Welcome to the Eleven AI! Type 'exit' to quit.")
     while True:
@@ -35,3 +37,5 @@ def test_e2e():
         print(f"AI: {response}")
 
 
+if __name__ == "__main__":
+    test_e2e()
