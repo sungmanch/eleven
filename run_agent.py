@@ -8,19 +8,13 @@ from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInt
 agent_id = "GExUCktNNwJ82r2Nrlbs"
 api_key = os.getenv("ELEVENLABS_API_KEY")
 
-
 client = ElevenLabs(api_key=api_key)
 
-
 conversation = Conversation(
-    # API client and agent ID.
     client,
     agent_id,
-    # Assume auth is required when API_KEY is set.
     requires_auth=bool(api_key),
-    # Use the default audio interface.
     audio_interface=DefaultAudioInterface(),
-    # Simple callbacks that print the conversation to the console.
     callback_agent_response=lambda response: print(f"Agent: {response}"),
     callback_agent_response_correction=lambda original, corrected: print(
         f"Agent: {original} -> {corrected}"
@@ -28,9 +22,20 @@ conversation = Conversation(
     callback_user_transcript=lambda transcript: print(f"User: {transcript}"),
 )
 
-
 conversation.start_session()
 
 signal.signal(signal.SIGINT, lambda sig, frame: conversation.end_session())
 conversation_id = conversation.wait_for_session_end()
 print(f"Conversation ID: {conversation_id}")
+
+if __name__ == "__main__":
+    print("Welcome to the ElevenLabs Chat App! Type 'exit' to quit.")
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() == 'exit':
+            print("Goodbye!")
+            break
+        # Here you would integrate the logic to send user_input to the ElevenLabs API and get a response
+        # For now, we will just simulate a response
+        response = "This is a simulated response from ElevenLabs."
+        print(f"Eleven: {response}") 

@@ -7,22 +7,28 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import START, MessagesState, StateGraph
 from type.user_info import UserInfo
 
+from elevenlabs.client import ElevenLabs
+from elevenlabs.conversational_ai.conversation import Conversation
+from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
+
 
 class ChatAgent:
     def __init__(self, user_info: UserInfo):
-        self.llm = ChatOpenAI(
-            model="gpt-4o",
-            temperature=0.0,
-            top_p=1.0,
-            n=1,
+        # Initialize ElevenLabs client and conversation
+        api_key = os.getenv("ELEVENLABS_API_KEY")
+        self.client = ElevenLabs(api_key=api_key)
+        self.conversation = Conversation(
+            self.client,
+            agent_id="GExUCktNNwJ82r2Nrlbs",
+            requires_auth=bool(api_key),
+            audio_interface=DefaultAudioInterface(),
+            callback_agent_response=lambda response: print(f"Agent: {response}"),
+            callback_agent_response_correction=lambda original, corrected: print(
+                f"Agent: {original} -> {corrected}"
+            ),
+            callback_user_transcript=lambda transcript: print(f"User: {transcript}"),
         )
-        self.graph = StateGraph(state_schema=MessagesState)
-
-        self.graph.add_edge(START, "model")
-        self.graph.add_node("model", self.call_model)
-
-        self.memory = MemorySaver()
-        self.app = self.graph.compile(checkpointer=self.memory)
+        self.conversation.start_session()
 
         self.user_info = user_info
         self.config = {
@@ -38,30 +44,11 @@ class ChatAgent:
         self.call_history = call_history
 
     def call_model(self, state: MessagesState):
-        previous_messages = state.get("messages", [])
-        current_messages = state["messages"]
-
-        if self.is_first_message:
-            previous_messages = previous_messages + self.call_history
-            self.is_first_message = False
-        
-        system_prompt = SystemMessage(
-            content=(
-                "Your main objective is to help the user find a match. "
-                "You will be given a list of users and a call history. "
-                "You will need to find the best match for the user based on the call history. "
-                "You will need to return the name of the user that is the best match. "
-                "During overall process, don't forget to be friendly and cheerful."
-                "You are a friendly AI assistant named Eleven."
-                "Casual and friendly tone is mandatory."
-            )
-        )
-        all_messages = [system_prompt] + previous_messages + current_messages
-        
-        response = self.llm.invoke(all_messages)
-        
-        state["messages"] = all_messages + [response]
-
+        # Use ElevenLabs conversation to generate responses
+        user_input = state.get("messages", [])[-1].content
+        self.conversation.send_message(user_input)
+        response = self.conversation.wait_for_response()
+        state["messages"].append(response)
         return {"messages": response}
 
     def chat(self, message: str):
