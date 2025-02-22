@@ -11,7 +11,7 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "^3.12"
 django = "^5.1.6"
-social-auth-app-django = "^5.4.3"
+python-dotenv = "^1.0.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
